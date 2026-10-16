@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mods Now</title>
+<style>
+:root{--bg:#0d1117;--panel:#161b24;--panel2:#1e2531;--line:#2a3342;--txt:#e8edf4;--mut:#8d99ab;--acc:#7cf29a;--acc2:#4cc9f0;--danger:#ff6b6b;--r:14px}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:radial-gradient(1200px 500px at 50% -200px,#1b2a3a,transparent),var(--bg);color:var(--txt);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;min-height:100vh}
+a{color:inherit;text-decoration:none}
+.top{position:sticky;top:0;z-index:20;display:flex;gap:16px;align-items:center;padding:12px 24px;background:rgba(13,17,23,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.logo{font-weight:900;font-size:22px;letter-spacing:1px}
+.logo span{color:var(--acc)}
+.top input[type=search]{flex:1;max-width:420px;margin-left:auto}
+#userbox{display:flex;gap:8px;align-items:center}
+main{max-width:1100px;margin:0 auto;padding:28px 20px 60px}
+h1{font-size:30px;margin:0 0 6px}
+h2{margin:0 0 14px;font-size:20px}
+.sub{color:var(--mut);margin:0 0 24px}
+input,select,textarea{width:100%;background:var(--panel2);color:var(--txt);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font:inherit;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--acc2)}
+input[type=file]{padding:8px}
+textarea{min-height:110px;resize:vertical}
+label{display:block;font-size:13px;color:var(--mut);margin:12px 0 5px}
+.btn{display:inline-flex;align-items:center;gap:6px;border:0;border-radius:10px;padding:9px 16px;font:inherit;font-weight:700;cursor:pointer;background:var(--acc);color:#07210f;transition:.15s}
+.btn:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.btn:disabled{opacity:.5;pointer-events:none}
+.btn.ghost{background:var(--panel2);color:var(--txt);border:1px solid var(--line)}
+.btn.danger{background:transparent;color:var(--danger);border:1px solid #5b2b2b}
+.btn.sm{padding:5px 11px;font-size:13px}
+.badge{font-size:11px;font-weight:800;padding:2px 8px;border-radius:99px;background:var(--panel2);border:1px solid var(--line);color:var(--acc);text-transform:uppercase;letter-spacing:.5px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:18px}
+.gcard{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:.18s}
+.gcard:hover{transform:translateY(-5px);border-color:var(--acc);box-shadow:0 12px 30px rgba(0,0,0,.4)}
+.cover{aspect-ratio:4/3;background-size:cover;background-position:center;display:grid;place-items:center;font-size:56px;font-weight:900;color:rgba(255,255,255,.9)}
+.gcard .info{padding:12px 14px}
+.gcard b{display:block;font-size:17px}
+.gcard small,.mut{color:var(--mut)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 20px}
+.chip{padding:6px 14px;border-radius:99px;background:var(--panel);border:1px solid var(--line);font-size:14px}
+.chip.on{background:var(--acc);color:#07210f;border-color:var(--acc);font-weight:700}
+.gh{display:flex;gap:18px;align-items:center;margin-bottom:22px}
+.gh .cover{width:110px;aspect-ratio:1;border-radius:14px;font-size:44px;flex:none}
+.mods{display:grid;gap:12px}
+.mcard{display:flex;gap:16px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;cursor:pointer;transition:.15s}
+.mcard:hover{border-color:var(--acc2)}
+.mcard .t{flex:1;min-width:0}
+.mcard b{font-size:17px}
+.mcard p{margin:4px 0 0;color:var(--mut);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tags{display:flex;gap:8px;flex-wrap:wrap;font-size:12px;color:var(--mut);margin-top:4px}
+.tag{background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:1px 8px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:20px}
+.desc{white-space:pre-wrap;color:#cfd7e3}
+table{width:100%;border-collapse:collapse}
+th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line)}
+th{font-size:12px;color:var(--mut);text-transform:uppercase}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px}
+.tab{padding:8px 16px;border-radius:10px;background:var(--panel);border:1px solid var(--line);cursor:pointer}
+.tab.on{background:var(--acc2);color:#04202b;font-weight:700;border-color:var(--acc2)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.extra-row{display:grid;grid-template-columns:160px 1fr auto;gap:10px;align-items:end;margin-top:8px}
+.item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.item .thumb{width:46px;height:46px;border-radius:8px;background-size:cover;background-position:center;flex:none;display:grid;place-items:center;font-weight:900}
+.item .grow{flex:1;min-width:0}
+.empty{text-align:center;padding:50px 20px;border:2px dashed var(--line);border-radius:var(--r);color:var(--mut)}
+.empty .btn{margin-top:14px}
+dialog{background:var(--panel);color:var(--txt);border:1px solid var(--line);border-radius:var(--r);padding:24px;width:min(380px,92vw)}
+dialog::backdrop{background:rgba(0,0,0,.65)}
+.err{color:var(--danger);font-size:13px;min-height:18px;margin-top:8px}
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--panel2);border:1px solid var(--acc);padding:11px 20px;border-radius:12px;transition:.3s;z-index:99;opacity:0}
+#toast.show{transform:translateX(-50%);opacity:1}
+#toast.err{border-color:var(--danger)}
+footer{text-align:center;color:var(--mut);font-size:12px;padding:30px}
+.crumb{color:var(--mut);margin-bottom:14px;font-size:14px}
+.crumb a:hover{color:var(--acc)}
+@media(max-width:640px){.top{flex-wrap:wrap;padding:10px 14px}.top input[type=search]{order:3;max-width:none;flex-basis:100%}.row2,.extra-row{grid-template-columns:1fr}.mcard{flex-wrap:wrap}}
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="logo" href="#/">MODS<span>NOW</span></a>
+  <input id="q" type="search" placeholder="Buscar juegos o mods…">
+  <div id="userbox"></div>
+</header>
+<main id="app"></main>
+<footer>Mods Now · los datos se guardan localmente en este navegador</footer>
+<dialog id="dlg"></dialog>
+<div id="toast"></div>
+
+<script>
+/* ============ utilidades ============ */
+const $=(s,r=document)=>r.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
+const fmtSize=b=>b<1024?b+' B':b<1048576?(b/1024).toFixed(1)+' KB':b<1073741824?(b/1048576).toFixed(1)+' MB':(b/1073741824).toFixed(2)+' GB';
+const fmtDate=t=>new Date(t).toLocaleDateString('es-ES',{day:'2-digit',month:'short',year:'numeric'});
+const byName=(a,b)=>a.name.localeCompare(b.name,'es');
+const newest=(a,b)=>b.created-a.created;
+function toast(msg,type){const t=$('#toast');t.textContent=msg;t.className='show'+(type==='err'?' err':'');clearTimeout(toast.t);toast.t=setTimeout(()=>t.className='',3200)}
+
+function sha256(s){
+  s=unescape(encodeURIComponent(s));
+  const rr=(v,a)=>(v>>>a)|(v<<(32-a)),mp=Math.pow,mw=mp(2,32);
+  let i,j,res='';const words=[],asl=s.length*8;let hash=[],k=[],pc=0;const isc={};
+  for(let c=2;pc<64;c++){if(!isc[c]){for(i=0;i<313;i+=c)isc[i]=c;hash[pc]=(mp(c,.5)*mw)|0;k[pc++]=(mp(c,1/3)*mw)|0}}
+  s+='\x80';while(s.length%64-56)s+='\x00';
+  for(i=0;i<s.length;i++){j=s.charCodeAt(i);words[i>>2]|=j<<((3-i)%4)*8}
+  words[words.length]=((asl/mw)|0);words[words.length]=asl;
+  for(j=0;j<words.length;){
+    const w=words.slice(j,j+=16),oh=hash;hash=hash.slice(0,8);
+    for(i=0;i<64;i++){
+      const w15=w[i-15],w2=w[i-2],a=hash[0],e=hash[4];
+      const t1=hash[7]+(rr(e,6)^rr(e,11)^rr(e,25))+((e&hash[5])^((~e)&hash[6]))+k[i]+(w[i]=(i<16)?w[i]:(w[i-16]+(rr(w15,7)^rr(w15,18)^(w15>>>3))+w[i-7]+(rr(w2,17)^rr(w2,19)^(w2>>>10)))|0);
+      const t2=(rr(a,2)^rr(a,13)^rr(a,22))+((a&hash[1])^(a&hash[2])^(hash[1]&hash[2]));
+      hash=[(t1+t2)|0].concat(hash);hash[4]=(hash[4]+t1)|0;
+    }
+    for(i=0;i<8;i++)hash[i]=(hash[i]+oh[i])|0;
+  }
+  for(i=0;i<8;i++)for(j=3;j+1;j--){const b=(hash[i]>>(j*8))&255;res+=((b<16)?0:'')+b.toString(16)}
+  return res;
+}
+const hp=p=>sha256('modsnow:'+p);
+
+/* ============ base de datos local (IndexedDB) ============ */
+const DB={
+  db:null,
+  open(){return new Promise((ok,ko)=>{
+    const r=indexedDB.open('modsnow',1);
+    r.onupgradeneeded=()=>{const d=r.result;
+      d.createObjectStore('users',{keyPath:'username'});
+      ['games','cats','mods'].forEach(n=>d.createObjectStore(n,{keyPath:'id'}));};
+    r.onsuccess=()=>{DB.db=r.result;ok()};r.onerror=()=>ko(r.error);
+  })},
+  req(store,mode,fn){return new Promise((ok,ko)=>{
+    const t=DB.db.transaction(store,mode),r=fn(t.objectStore(store));
+    t.oncomplete=()=>ok(r.result);t.onerror=t.onabort=()=>ko(t.error);
+  })},
+  all:s=>DB.req(s,'readonly',o=>o.getAll()),
+  put:(s,v)=>DB.req(s,'readwrite',o=>o.put(v)),
+  del:(s,k)=>DB.req(s,'readwrite',o=>o.delete(k))
+};
+
+/* ============ estado ============ */
+const CREATOR={username:'creador',hash:'c1adcb5d38182f54cf1582dd7b79c553222bd69a5894ec01af7a1bde0badd0c1',role:'creator'};
+const S={users:[],games:[],cats:[],mods:[],me:null,q:'',tab:'pub'};
+const isCreator=()=>S.me?.role==='creator';
+const isAdmin=()=>!!S.me&&(S.me.role==='admin'||S.me.role==='creator');
+const bc='BroadcastChannel' in window?new BroadcastChannel('modsnow'):null;
+
+async function load(){
+  [S.users,S.games,S.cats,S.mods]=await Promise.all(['users','games','cats','mods'].map(DB.all));
+  S.me=S.users.find(u=>u.username===sessionStorage.getItem('mn_user'))||null;
+}
+/* tras cualquier cambio: recarga datos y repinta el HTML automáticamente (también en otras pestañas) */
+async function refresh(broadcast=true){await load();render();if(broadcast&&bc)bc.postMessage('changed')}
+if(bc)bc.onmessage=()=>refresh(false);
+
+/* ============ imágenes ============ */
+const urls=new Map();
+function gimg(g){
+  if(!g.img)return '';
+  let u=urls.get(g.id);
+  if(!u||u.src!==g.img){if(u)URL.revokeObjectURL(u.url);u={src:g.img,url:URL.createObjectURL(g.img)};urls.set(g.id,u)}
+  return u.url;
+}
+async function imgToBlob(file,max=900){
+  const bmp=await createImageBitmap(file),s=Math.min(1,max/Math.max(bmp.width,bmp.height));
+  const c=document.createElement('canvas');c.width=Math.round(bmp.width*s);c.height=Math.round(bmp.height*s);
+  c.getContext('2d').drawImage(bmp,0,0,c.width,c.height);
+  return new Promise(ok=>c.toBlob(ok,'image/jpeg',.85));
+}
+function coverStyle(g){
+  if(g.img)return `background-image:url('${gimg(g)}')`;
+  let h=0;for(const ch of g.name)h=(h*31+ch.charCodeAt(0))%360;
+  return `background:linear-gradient(135deg,hsl(${h},60%,38%),hsl(${(h+50)%360},65%,24%))`;
+}
+const cover=(g,cls='cover')=>`<div class="${cls}" style="${coverStyle(g)}">${g.img?'':esc(g.name[0]?.toUpperCase()||'?')}</div>`;
+
+/* ============ vistas ============ */
+const app=$('#app');
+function renderUser(){
+  const b=$('#userbox');
+  if(!S.me){b.innerHTML=`<button class="btn" data-open-login>Entrar</button>`;return}
+  b.innerHTML=`<span class="badge">${S.me.role==='creator'?'Creador':'Admin'}</span><span class="mut">${esc(S.me.username)}</span>
+    <a class="btn ghost sm" href="#/panel">Panel</a><button class="btn ghost sm" data-logout>Salir</button>`;
+}
+function render(){
+  renderUser();
+  const r=location.hash.replace(/^#\/?/,'').split('/');
+  if(r[0]==='g'&&r[1])return viewGame(r[1],r[2]);
+  if(r[0]==='m'&&r[1])return viewMod(r[1]);
+  if(r[0]==='panel')return viewPanel();
+  viewHome();
+}
+
+function modCard(m,showGame){
+  const g=S.games.find(x=>x.id===m.gameId),c=S.cats.find(x=>x.id===m.catId);
+  return `<article class="mcard" data-act="open" data-id="${m.id}">
+    <div class="t"><b>${esc(m.title)}</b>
+      <p>${esc(m.desc||'Sin descripción')}</p>
+      <div class="tags">${showGame&&g?`<span class="tag">${esc(g.name)}</span>`:''}${c?`<span class="tag">${esc(c.name)}</span>`:''}
+      <span class="tag">${m.files.length} versión${m.files.length>1?'es':''}</span><span>por ${esc(m.author)} · ${fmtDate(m.created)}</span></div></div>
+    <button class="btn sm" data-act="dl" data-id="${m.id}" data-idx="0">⬇ Descargar</button></article>`;
+}
+
+function viewHome(){
+  const q=S.q.trim().toLowerCase();
+  const games=S.games.filter(g=>!q||g.name.toLowerCase().includes(q)).sort(byName);
+  const mods=q?S.mods.filter(m=>m.title.toLowerCase().includes(q)).sort(newest):[];
+  let h=`<h1>Elige tu juego</h1><p class="sub">Descarga mods para tus juegos favoritos.</p>`;
+  if(!S.games.length){
+    h+=`<div class="empty"><h2>Aún no hay juegos</h2>${isCreator()?`<p>Crea el primer juego para empezar a publicar mods.</p><a class="btn" href="#/panel" data-go-games>Crear un juego</a>`:`<p>El creador tiene que añadir el primer juego.</p>`}</div>`;
+  }else if(!games.length&&!mods.length){
+    h+=`<div class="empty">No hay resultados para «${esc(S.q)}».</div>`;
+  }else{
+    if(games.length)h+=`<div class="grid">${games.map(g=>`<div class="gcard" data-act="game" data-id="${g.id}">${cover(g)}
+      <div class="info"><b>${esc(g.name)}</b><small>${S.mods.filter(m=>m.gameId===g.id).length} mods</small></div></div>`).join('')}</div>`;
+    if(mods.length)h+=`<h2 style="margin-top:30px">Mods encontrados</h2><div class="mods">${mods.map(m=>modCard(m,true)).join('')}</div>`;
+  }
+  app.innerHTML=h;
+}
+
+function viewGame(id,catId){
+  const g=S.games.find(x=>x.id===id);
+  if(!g){app.innerHTML=`<div class="empty">Juego no encontrado. <br><a class="btn ghost" href="#/">Volver</a></div>`;return}
+  const cats=S.cats.filter(c=>c.gameId===id).sort(byName);
+  const all=S.mods.filter(m=>m.gameId===id);
+  const q=S.q.trim().toLowerCase();
+  let mods=all.filter(m=>(!catId||m.catId===catId)&&(!q||m.title.toLowerCase().includes(q))).sort(newest);
+  let h=`<div class="crumb"><a href="#/">Juegos</a> › ${esc(g.name)}</div>
+    <div class="gh">${cover(g)}<div><h1>${esc(g.name)}</h1><div class="mut">${all.length} mods · ${cats.length} categorías</div></div></div>`;
+  if(cats.length)h+=`<div class="chips"><a class="chip ${!catId?'on':''}" href="#/g/${id}">Todas (${all.length})</a>${cats.map(c=>
+    `<a class="chip ${catId===c.id?'on':''}" href="#/g/${id}/${c.id}">${esc(c.name)} (${all.filter(m=>m.catId===c.id).length})</a>`).join('')}</div>`;
+  else h+=`<div class="empty" style="margin-bottom:20px">Este juego aún no tiene categorías.${isCreator()?`<br><a class="btn" href="#/panel" data-go-cats>Crear categoría</a>`:''}</div>`;
+  h+=mods.length?`<div class="mods">${mods.map(m=>modCard(m,false)).join('')}</div>`:(cats.length?`<div class="empty">No hay mods aquí todavía.${isAdmin()?`<br><a class="btn" href="#/panel">Publicar un mod</a>`:''}</div>`:'');
+  app.innerHTML=h;
+}
+
+function canDelete(m){return isCreator()||(isAdmin()&&m.author===S.me.username)}
+function viewMod(id){
+  const m=S.mods.find(x=>x.id===id);
+  if(!m){app.innerHTML=`<div class="empty">Mod no encontrado.<br><a class="btn ghost" href="#/">Volver</a></div>`;return}
+  const g=S.games.find(x=>x.id===m.gameId),c=S.cats.find(x=>x.id===m.catId);
+  app.innerHTML=`<div class="crumb"><a href="#/">Juegos</a> › <a href="#/g/${m.gameId}">${esc(g?.name||'?')}</a>${c?` › <a href="#/g/${m.gameId}/${c.id}">${esc(c.name)}</a>`:''}</div>
+    <h1>${esc(m.title)}</h1><div class="mut" style="margin-bottom:18px">por ${esc(m.author)} · ${fmtDate(m.created)}</div>
+    <div class="card"><h2>Descripción</h2><div class="desc">${esc(m.desc||'Sin descripción.')}</div></div>
+    <div class="card" style="margin-top:16px"><h2>Descargas</h2>
+      <table><thead><tr><th>Versión</th><th>Archivo</th><th>Tamaño</th><th></th></tr></thead><tbody>
+      ${m.files.map((f,i)=>`<tr><td><b>${esc(f.version)}</b></td><td>${esc(f.name)}</td><td>${fmtSize(f.size)}</td>
+        <td style="text-align:right"><button class="btn sm" data-act="dl" data-id="${m.id}" data-idx="${i}">⬇ Descargar</button></td></tr>`).join('')}
+      </tbody></table></div>
+    ${canDelete(m)?`<p><button class="btn danger sm" data-act="delmod" data-id="${m.id}">Eliminar mod</button></p>`:''}`;
+}
+
+/* ---------- panel ---------- */
+function viewPanel(){
+  if(!isAdmin()){app.innerHTML=`<div class="empty"><h2>Acceso restringido</h2><p>Solo los administradores pueden publicar mods.</p><button class="btn" data-open-login>Entrar</button></div>`;return}
+  const tabs=[['pub','Publicar mod'],['mine',isCreator()?'Todos los mods':'Mis mods']];
+  if(isCreator())tabs.push(['games','Juegos'],['cats','Categorías'],['admins','Administradores']);
+  tabs.push(['acc','Mi cuenta']);
+  if(!tabs.some(t=>t[0]===S.tab))S.tab='pub';
+  const body={pub:tabPub,mine:tabMine,games:tabGames,cats:tabCats,admins:tabAdmins,acc:tabAcc}[S.tab]();
+  app.innerHTML=`<h1>Panel</h1><p class="sub">Sesión como <b>${esc(S.me.username)}</b></p>
+    <div class="tabs">${tabs.map(t=>`<div class="tab ${S.tab===t[0]?'on':''}" data-act="tab" data-tab="${t[0]}">${t[1]}</div>`).join('')}</div>${body}`;
+  if(S.tab==='pub')fillCats();
+}
+
+function tabPub(){
+  const cr=isCreator();
+  if(!S.games.length&&!cr)return `<div class="empty">No hay juegos todavía. El creador debe crear uno primero.</div>`;
+  return `<form class="card" data-form="pub">
+    <div class="row2"><div><label>Juego</label><select id="pg" name="game">
+      ${S.games.slice().sort(byName).map(g=>`<option value="${g.id}">${esc(g.name)}</option>`).join('')}
+      ${cr?`<option value="__new">➕ Crear juego nuevo…</option>`:''}</select></div>
+    <div><label>Categoría</label><select id="pc" name="cat"></select></div></div>
+    <div id="newgame" hidden class="row2"><div><label>Nombre del juego nuevo</label><input name="newgame" maxlength="60"></div>
+      <div><label>Foto del juego</label><input type="file" name="newgameimg" accept="image/*"></div></div>
+    <div id="newcat" hidden><label>Nombre de la categoría nueva</label><input name="newcat" maxlength="60"></div>
+    <label>Título</label><input name="title" required maxlength="120">
+    <label>Descripción</label><textarea name="desc" maxlength="5000"></textarea>
+    <div class="row2"><div><label>Versión del archivo principal (ej. 1.20.4)</label><input name="ver" maxlength="40" placeholder="Principal"></div>
+      <div><label>Archivo descargable</label><input type="file" name="main" required></div></div>
+    <label>Más tipos / otras versiones (opcional)</label>
+    <div id="extras"></div>
+    <p><button type="button" class="btn ghost sm" data-act="addrow">➕ Añadir otra versión</button></p>
+    <button class="btn" type="submit">Publicar mod</button></form>`;
+}
+function fillCats(){
+  const pg=$('#pg');if(!pg)return;
+  const cr=isCreator(),gid=pg.value,pc=$('#pc');
+  const cats=gid==='__new'?[]:S.cats.filter(c=>c.gameId===gid).sort(byName);
+  pc.innerHTML=cats.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('')+(cr?`<option value="__new">➕ Crear categoría nueva…</option>`:'');
+  if(!cats.length&&!cr)pc.innerHTML=`<option value="">(sin categorías: el creador debe crear una)</option>`;
+  $('#newgame').hidden=gid!=='__new';
+  $('#newcat').hidden=pc.value!=='__new';
+}
+function tabMine(){
+  const list=S.mods.filter(m=>isCreator()||m.author===S.me.username).sort(newest);
+  if(!list.length)return `<div class="empty">Aún no has publicado mods.</div>`;
+  return `<div class="card">${list.map(m=>{const g=S.games.find(x=>x.id===m.gameId);
+    return `<div class="item"><div class="grow"><a href="#/m/${m.id}"><b>${esc(m.title)}</b></a>
+    <div class="mut">${esc(g?.name||'?')} · ${esc(m.author)} · ${fmtDate(m.created)} · ${m.files.length} archivo(s)</div></div>
+    <button class="btn danger sm" data-act="delmod" data-id="${m.id}">Eliminar</button></div>`}).join('')}</div>`;
+}
+function tabGames(){
+  return `<form class="card" data-form="game"><h2>Nuevo juego</h2>
+    <div class="row2"><div><label>Nombre</label><input name="name" required maxlength="60"></div>
+    <div><label>Foto para identificar el juego</label><input type="file" name="img" accept="image/*"></div></div>
+    <p><button class="btn" type="submit">Añadir juego</button></p></form>
+    <div class="card" style="margin-top:16px"><h2>Juegos (${S.games.length})</h2>
+    ${S.games.slice().sort(byName).map(g=>`<div class="item"><div class="thumb" style="${coverStyle(g)}">${g.img?'':esc(g.name[0].toUpperCase())}</div>
+      <div class="grow"><b>${esc(g.name)}</b><div class="mut">${S.cats.filter(c=>c.gameId===g.id).length} categorías · ${S.mods.filter(m=>m.gameId===g.id).length} mods</div></div>
+      <button class="btn danger sm" data-act="delgame" data-id="${g.id}">Eliminar</button></div>`).join('')||'<p class="mut">Todavía no hay juegos.</p>'}</div>`;
+}
+function tabCats(){
+  if(!S.games.length)return `<div class="empty">Primero crea un juego en la pestaña «Juegos».</div>`;
+  return `<form class="card" data-form="cat"><h2>Nueva categoría</h2>
+    <div class="row2"><div><label>Juego</label><select name="game">${S.games.slice().sort(byName).map(g=>`<option value="${g.id}">${esc(g.name)}</option>`).join('')}</select></div>
+    <div><label>Nombre de la categoría</label><input name="name" required maxlength="60"></div></div>
+    <p><button class="btn" type="submit">Añadir categoría</button></p></form>
+    <div class="card" style="margin-top:16px">${S.games.slice().sort(byName).map(g=>`<h2 style="font-size:16px;margin-top:8px">${esc(g.name)}</h2>
+      ${S.cats.filter(c=>c.gameId===g.id).sort(byName).map(c=>`<div class="item"><div class="grow">${esc(c.name)} <span class="mut">· ${S.mods.filter(m=>m.catId===c.id).length} mods</span></div>
+      <button class="btn danger sm" data-act="delcat" data-id="${c.id}">Eliminar</button></div>`).join('')||'<p class="mut">Sin categorías.</p>'}`).join('')}</div>`;
+}
+function tabAdmins(){
+  const admins=S.users.filter(u=>u.role==='admin');
+  return `<form class="card" data-form="admin"><h2>Crear cuenta de administrador</h2>
+    <p class="mut">Solo tú, como creador, puedes crear cuentas que publican mods.</p>
+    <div class="row2"><div><label>Usuario</label><input name="u" required maxlength="30" autocomplete="off"></div>
+    <div><label>Contraseña (mín. 6)</label><input name="p" type="text" required minlength="6" autocomplete="off"></div></div>
+    <p><button class="btn" type="submit">Crear admin</button></p></form>
+    <div class="card" style="margin-top:16px"><h2>Administradores (${admins.length})</h2>
+    ${admins.map(u=>`<div class="item"><div class="grow"><b>${esc(u.username)}</b><div class="mut">${S.mods.filter(m=>m.author===u.username).length} mods publicados</div></div>
+      <button class="btn danger sm" data-act="deladm" data-id="${esc(u.username)}">Eliminar</button></div>`).join('')||'<p class="mut">Aún no hay administradores.</p>'}</div>`;
+}
+function tabAcc(){
+  return `<form class="card" data-form="pass" style="max-width:420px"><h2>Cambiar contraseña</h2>
+    <label>Contraseña actual</label><input name="old" type="password" required>
+    <label>Nueva contraseña (mín. 6)</label><input name="new" type="password" required minlength="6">
+    <p><button class="btn" type="submit">Guardar</button></p></form>`;
+}
+
+/* ============ acciones ============ */
+async function download(id,idx){
+  const m=S.mods.find(x=>x.id===id),f=m?.files[idx];if(!f)return;
+  const url=URL.createObjectURL(f.blob),a=document.createElement('a');
+  a.href=url;a.download=f.name;document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),15000);
+}
+const acts={
+  open:d=>location.hash='#/m/'+d.id,
+  game:d=>location.hash='#/g/'+d.id,
+  dl:d=>download(d.id,+d.idx),
+  tab:d=>{S.tab=d.tab;render()},
+  addrow:()=>{const r=document.createElement('div');r.className='extra-row';
+    r.innerHTML=`<div><label>Versión</label><input name="xver" maxlength="40" placeholder="ej. 1.19.2"></div><div><label>Archivo</label><input type="file" name="xfile"></div><button type="button" class="btn danger sm" data-act="delrow">✕</button>`;
+    $('#extras').appendChild(r)},
+  delrow:(d,el)=>el.closest('.extra-row').remove(),
+  async delmod(d){const m=S.mods.find(x=>x.id===d.id);if(!m||!canDelete(m))return toast('Sin permiso','err');
+    if(!confirm('¿Eliminar «'+m.title+'»?'))return;await DB.del('mods',m.id);if(location.hash.startsWith('#/m/'))location.hash='#/g/'+m.gameId;await refresh();toast('Mod eliminado')},
+  async delgame(d){if(!isCreator())return;const g=S.games.find(x=>x.id===d.id);
+    if(!confirm('¿Eliminar «'+g.name+'» con todas sus categorías y mods?'))return;
+    for(const m of S.mods.filter(m=>m.gameId===g.id))await DB.del('mods',m.id);
+    for(const c of S.cats.filter(c=>c.gameId===g.id))await DB.del('cats',c.id);
+    await DB.del('games',g.id);await refresh();toast('Juego eliminado')},
+  async delcat(d){if(!isCreator())return;const c=S.cats.find(x=>x.id===d.id);
+    if(!confirm('¿Eliminar la categoría «'+c.name+'» y sus mods?'))return;
+    for(const m of S.mods.filter(m=>m.catId===c.id))await DB.del('mods',m.id);
+    await DB.del('cats',c.id);await refresh();toast('Categoría eliminada')},
+  async deladm(d){if(!isCreator())return;if(!confirm('¿Eliminar al admin «'+d.id+'»? Sus mods se conservan.'))return;
+    await DB.del('users',d.id);await refresh();toast('Admin eliminado')}
+};
+app.addEventListener('click',e=>{
+  const t=e.target.closest('[data-act]');
+  if(t){e.stopPropagation();acts[t.dataset.act]?.(t.dataset,t);return}
+  const g=e.target.closest('[data-go-games]');if(g)S.tab='games';
+  const c=e.target.closest('[data-go-cats]');if(c)S.tab='cats';
+  if(e.target.closest('[data-open-login]'))openLogin();
+});
+app.addEventListener('change',e=>{if(e.target.id==='pg'||e.target.id==='pc')fillCats()});
+
+const forms={
+  async pub(f){
+    if(!isAdmin())return toast('Solo los admins pueden publicar','err');
+    const E=f.elements,btn=f.querySelector('[type=submit]');btn.disabled=true;
+    try{
+      let gameId=E.game.value,catId=E.cat.value;
+      if(gameId==='__new'){
+        if(!isCreator())throw Error('Solo el creador puede crear juegos');
+        const name=E.newgame.value.trim();if(!name)throw Error('Escribe el nombre del juego nuevo');
+        const im=E.newgameimg.files[0];
+        const g={id:uid(),name,img:im?await imgToBlob(im):null,created:Date.now()};
+        await DB.put('games',g);gameId=g.id;catId='__new';
+      }
+      if(catId==='__new'){
+        if(!isCreator())throw Error('Solo el creador puede crear categorías');
+        const name=E.newcat.value.trim();if(!name)throw Error('Escribe el nombre de la categoría nueva');
+        const c={id:uid(),gameId,name};await DB.put('cats',c);catId=c.id;
+      }
+      if(!gameId||!catId)throw Error('Elige juego y categoría');
+      const main=E.main.files[0];if(!main)throw Error('Falta el archivo principal');
+      const files=[{version:E.ver.value.trim()||'Principal',name:main.name,size:main.size,blob:main}];
+      f.querySelectorAll('.extra-row').forEach(r=>{const fl=r.querySelector('[name=xfile]').files[0];
+        if(fl)files.push({version:r.querySelector('[name=xver]').value.trim()||'Otra versión',name:fl.name,size:fl.size,blob:fl})});
+      const mod={id:uid(),gameId,catId,title:E.title.value.trim(),desc:E.desc.value.trim(),author:S.me.username,created:Date.now(),files};
+      await DB.put('mods',mod);await refresh();toast('Mod publicado ✔');location.hash='#/m/'+mod.id;
+    }catch(err){toast(err.message,'err');btn.disabled=false}
+  },
+  async game(f){
+    if(!isCreator())return;const E=f.elements,name=E.name.value.trim(),im=E.img.files[0];
+    if(S.games.some(g=>g.name.toLowerCase()===name.toLowerCase()))return toast('Ese juego ya existe','err');
+    await DB.put('games',{id:uid(),name,img:im?await imgToBlob(im):null,created:Date.now()});
+    await refresh();toast('Juego añadido');
+  },
+  async cat(f){
+    if(!isCreator())return;const E=f.elements,name=E.name.value.trim(),gameId=E.game.value;
+    if(S.cats.some(c=>c.gameId===gameId&&c.name.toLowerCase()===name.toLowerCase()))return toast('Esa categoría ya existe','err');
+    await DB.put('cats',{id:uid(),gameId,name});await refresh();toast('Categoría añadida');
+  },
+  async admin(f){
+    if(!isCreator())return;const E=f.elements,u=E.u.value.trim().toLowerCase(),p=E.p.value.trim();
+    if(!/^[a-z0-9_.-]{3,30}$/.test(u))return toast('Usuario: 3-30 caracteres (letras, números, _ . -)','err');
+    if(S.users.some(x=>x.username===u))return toast('Ese usuario ya existe','err');
+    if(p.length<6)return toast('Contraseña demasiado corta','err');
+    await DB.put('users',{username:u,hash:hp(p),role:'admin',created:Date.now()});
+    await refresh();toast('Admin «'+u+'» creado');
+  },
+  async pass(f){
+    const E=f.elements;if(hp(E.old.value)!==S.me.hash)return toast('La contraseña actual no es correcta','err');
+    if(E.new.value.length<6)return toast('Mínimo 6 caracteres','err');
+    await DB.put('users',{...S.me,hash:hp(E.new.value)});f.reset();await refresh();toast('Contraseña actualizada');
+  }
+};
+app.addEventListener('submit',e=>{const f=e.target.closest('form[data-form]');if(!f)return;e.preventDefault();forms[f.dataset.form](f)});
+
+/* ---------- login ---------- */
+const dlg=$('#dlg');
+function openLogin(){
+  dlg.innerHTML=`<form id="lf"><h2>Acceso de administrador</h2>
+    <label>Usuario</label><input name="u" required autocomplete="username">
+    <label>Contraseña</label><input name="p" type="password" required autocomplete="current-password">
+    <div class="err" id="lerr"></div>
+    <p style="display:flex;gap:8px;justify-content:flex-end;margin-bottom:0"><button type="button" class="btn ghost" id="lc">Cancelar</button><button class="btn" type="submit">Entrar</button></p></form>`;
+  dlg.showModal();$('#lc').onclick=()=>dlg.close();
+  $('#lf').onsubmit=async e=>{
+    e.preventDefault();const u=e.target.u.value.trim().toLowerCase(),p=e.target.p.value.trim();
+    const user=S.users.find(x=>x.username===u);
+    if(!user||user.hash!==hp(p)){$('#lerr').textContent='Usuario o contraseña incorrectos';return}
+    sessionStorage.setItem('mn_user',user.username);dlg.close();await refresh(false);toast('Bienvenido, '+user.username);
+    location.hash='#/panel';
+  };
+}
+$('#userbox').addEventListener('click',e=>{
+  if(e.target.closest('[data-open-login]'))openLogin();
+  if(e.target.closest('[data-logout]')){sessionStorage.removeItem('mn_user');S.me=null;S.tab='pub';location.hash='#/';render()}
+});
+$('#q').addEventListener('input',e=>{S.q=e.target.value;if(!location.hash.startsWith('#/panel'))render()});
+window.addEventListener('hashchange',render);
+
+/* ============ arranque ============ */
+(async()=>{
+  try{
+    await DB.open();
+    if(!(await DB.all('users')).some(u=>u.username===CREATOR.username))await DB.put('users',{...CREATOR,created:Date.now()});
+    await load();render();
+  }catch(err){app.innerHTML=`<div class="empty"><h2>No se pudo iniciar el almacenamiento local</h2><p>${esc(err.message||err)}</p><p>Abre el archivo en un navegador moderno (Chrome, Edge, Firefox) y sin modo privado.</p></div>`}
+})();
+</script>
+</body>
+</html>
